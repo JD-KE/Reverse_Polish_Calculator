@@ -27,19 +27,29 @@ public class CalculatorSession {
         Console cons = System.console();
         while (!stop) {
             String line = cons.readLine("> ");
-            line = line.trim() + "\n";
+            line = line.trim();
+            // stop = "end".equals(line);
+            // if (stop) {
+            //     break;
+            // }
 
-            bw.write(line);
+            bw.write(line + "\n");
             bw.flush();
 
             String result = br.readLine();
             result = result.trim();
             
             System.out.printf(">result: %s\n", result);
-
             
+            if ("Session Ended".equals(result)) {
+                stop = true;
+            }
             
         }
+
+        bw.flush();
+        os.close();
+        is.close();
     }
     
 }

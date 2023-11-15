@@ -17,16 +17,19 @@ public class Server {
         }
 
         System.out.printf("Listening on port: %d%n", port);
-        ServerSocket server = new ServerSocket(port);
+        
+        //try with resources to auto close server: to deal with server not closed error
+        try(ServerSocket server = new ServerSocket(port)) {
 
-        while (true) {
-            Socket client = server.accept();
-            System.out.println("New client connection");
+            while (true) {
+                Socket client = server.accept();
+                System.out.println("New client connection");
 
-            Runnable handler = new ClientHandler(client);
+                Runnable handler = new ClientHandler(client);
 
-            executor.submit(handler);
+                executor.submit(handler);
 
+            }
         }
         
     }

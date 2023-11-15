@@ -15,7 +15,7 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
     }
 
-
+    // run cannot directly throw exception
     @Override
     public void run() {
 
@@ -37,7 +37,7 @@ public class ClientHandler implements Runnable {
 
         boolean stop = false;
 
-        while(!false) {
+        while(!stop) {
             String line = br.readLine();
             line = line.trim();
 
@@ -54,6 +54,8 @@ public class ClientHandler implements Runnable {
             if ("end".equalsIgnoreCase(inputs[0])) {
                 System.out.println("End of session");
                 stop = true;
+                bw.write("Session Ended\n");
+                bw.flush();
                 break;
             }
 
@@ -67,6 +69,7 @@ public class ClientHandler implements Runnable {
                     case "-":                        
                     case "*":
                     case "/":
+                        if (stack.size() < 2) continue;
                         a = stack.pop();
                         b = stack.pop();
                         if ("/".equals(input)){
